@@ -11,10 +11,8 @@ var _velocity := Vector2.ZERO
 
 
 func _process(delta: float) -> void:
-	# Get all inputs
-	var move_vector := Vector2.ZERO
-	move_vector.x = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
-	move_vector.y = -1 if Input.is_action_pressed("jump") else 0
+	# get movement vector
+	var move_vector := get_movement_vector()
 	
 	# Accelerate horizontal movement
 	_velocity.x += move_vector.x * horizontal_acceleration * delta
@@ -36,3 +34,11 @@ func _process(delta: float) -> void:
 		_velocity.y += gravity * delta
 	
 	_velocity = move_and_slide(_velocity, Vector2.UP)
+
+
+## Get movement vector from the player
+func get_movement_vector() -> Vector2:
+	var move_vector := Vector2.ZERO
+	move_vector.x = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
+	move_vector.y = -1 if Input.is_action_pressed("jump") else 0
+	return move_vector
